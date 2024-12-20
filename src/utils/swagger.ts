@@ -6,9 +6,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'CRM Auth Service API',
+      title: 'CRM Clients Service API',
       version: '1.0.0',
-      description: 'API Documentation for the Auth Service',
+      description: 'API Documentation for the Clients Service',
     },
   },
   apis: ['./src/routes/*.ts', './src/controllers/*.ts', './src/models/*.ts'], // files containing annotations as above
