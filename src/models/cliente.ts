@@ -41,19 +41,19 @@ Cliente.init(
         },
         plazas: {
             type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: false,
+            allowNull: true,
         },
         saldo_pendiente: {
             type: DataTypes.FLOAT,
-            allowNull: false,
+            allowNull: true,
         },
         saldo_vencido: {
             type: DataTypes.FLOAT,
-            allowNull: false,
+            allowNull: true,
         },
         credito_por_dias: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
         }
     },
     {
