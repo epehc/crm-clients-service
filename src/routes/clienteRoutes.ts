@@ -6,6 +6,7 @@ import {
     getAllClientes,
     getClienteByClienteId,
     getClienteByNit,
+    getClientes,
     updateCliente
 } from "../controllers/clienteController";
 import {authenticateJWT} from "@epehc/sharedutilities/middlewares/authMiddleware";
@@ -89,10 +90,16 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Cliente'
  */
-router.get('/',
+
+router.get('/all',
     authenticateJWT,
     authorize([UserRole.Admin, UserRole.Reclutador]),
     getAllClientes);
+
+router.get('/',
+    authenticateJWT,
+    authorize([UserRole.Admin, UserRole.Reclutador]),
+    getClientes);
 
 /**
  * @swagger
@@ -117,11 +124,11 @@ router.get('/',
  *       404:
  *         description: Cliente not found
  */
-router.get('/:cliente_id',
+router.get('/:client_id',
     authenticateJWT,
-    authorize([UserRole.Admin, UserRole.Reclutador]),
+    authorize([UserRole.Admin]),
     [
-        param('cliente_id').isUUID().withMessage('Cliente ID es requerido')
+        param('client_id').isUUID().withMessage('Cliente ID es requerido')
     ],
     getClienteByClienteId);
 
@@ -183,18 +190,15 @@ router.post(
     authenticateJWT,
     authorize([UserRole.Admin, UserRole.Reclutador]),
     [
-        body('cliente_id').isUUID(),
+        //body('cliente_id').isUUID(),
         body('nombre').isString().notEmpty().withMessage('Nombre es requerido'),
         body('direccion').isString().notEmpty().withMessage('Direccion es requerida'),
         body('telefono').isString().notEmpty().withMessage('Telefono es requerido'),
-        body('persona_contacto').isString().notEmpty().withMessage('Persona de contacto es requerida'),
-        body('telefono_persona_contacto').isString().notEmpty().withMessage('Telefono de contacto es requerido'),
-        body('email_persona_contacto').isEmail().notEmpty().withMessage('Correo de contacto es requerido'),
         body('nit').isString().notEmpty().withMessage('NIT es requerido'),
-        body('plazas').isArray(),
-        body('saldo_pendiente').isFloat(),
-        body('saldo_vencido').isFloat(),
-        body('credito_por_dias').isInt()
+        body('plazas').optional().isArray(),
+        body('saldo_pendiente').optional().isFloat(),
+        body('saldo_vencido').optional().isFloat(),
+        body('credito_por_dias').optional().isInt()
     ],
     createCliente
 );
@@ -232,21 +236,18 @@ router.post(
  *         description: Invalid input
  */
 router.put(
-    '/:cliente_id',
+    '/:client_id',
     authenticateJWT,
-    authorize([UserRole.Admin, UserRole.Reclutador]),
+    authorize([UserRole.Admin]),
     [
-        param('cliente_id').isUUID(),
-        body('nombre').optional().isString().notEmpty().withMessage('Nombre es requerido'),
-        body('direccion').optional().isString().notEmpty().withMessage('Direccion es requerida'),
-        body('telefono').optional().isString().notEmpty().withMessage('Telefono es requerido'),
-        body('persona_contacto').optional().isString().notEmpty().withMessage('Persona de contacto es requerida'),
-        body('telefono_persona_contacto').optional().isString().notEmpty().withMessage('Telefono de contacto es requerido'),
-        body('email_persona_contacto').optional().isEmail().notEmpty().withMessage('Correo de contacto es requerido'),
-        body('nit').optional().isString().notEmpty().withMessage('NIT es requerido'),
+        param('client_id').isUUID(),
+        body('nombre').isString().notEmpty().withMessage('Nombre es requerido'),
+        body('direccion').isString().notEmpty().withMessage('Direccion es requerida'),
+        body('telefono').isString().notEmpty().withMessage('Telefono es requerido'),
+        body('nit').isString().notEmpty().withMessage('NIT es requerido'),
         body('plazas').optional().isArray(),
-        body('saldo_pendiente').optional().isFloat(),
-        body('saldo_vencido').optional().isFloat(),
+        body('saldo_pendiente').optional().isNumeric(),
+        body('saldo_vencido').optional().isNumeric(),
         body('credito_por_dias').optional().isInt()
     ],
     updateCliente
