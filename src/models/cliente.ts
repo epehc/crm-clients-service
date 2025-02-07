@@ -23,18 +23,6 @@ Cliente.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        persona_contacto: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        telefono_persona_contacto: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        email_persona_contacto: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
         nit: {
             type: DataTypes.STRING,
             allowNull: false,
