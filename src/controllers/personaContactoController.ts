@@ -49,7 +49,7 @@ export const createPersonaContacto = async (req: Request, res: Response) => {
     }
 }
 
-/* export const updatePersonaContacto = async (req: Request, res: Response) => {
+export const updatePersonaContacto = async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         logger.error('Failed to validate request: ', errors);
@@ -58,13 +58,10 @@ export const createPersonaContacto = async (req: Request, res: Response) => {
     }
     try {
         const persona_contacto_id = req.params.persona_contacto_id;
-        const {nombre, telefono, email} = req.body;
+        const updatedPersonaContacto = req.body;
         const personaContacto = await PersonaContacto.findByPk(persona_contacto_id);
         if (personaContacto) {
-            personaContacto.nombre = nombre;
-            personaContacto.telefono = telefono;
-            personaContacto.email = email;
-            await personaContacto.save();
+            await personaContacto.update(updatedPersonaContacto);
             logger.info('Persona de contacto updated');
             res.status(200).json(personaContacto);
         } else {
@@ -75,7 +72,7 @@ export const createPersonaContacto = async (req: Request, res: Response) => {
         logger.error('Failed to update persona de contacto');
         res.status(500).json({error: 'Failed to update persona de contacto'});
     }
-} */
+} 
 
 
 export const deletePersonaContacto = async (req: Request, res: Response) => {

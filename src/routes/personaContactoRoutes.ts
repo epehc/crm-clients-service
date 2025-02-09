@@ -1,7 +1,7 @@
 import { authenticateJWT } from "@epehc/sharedutilities/middlewares/authMiddleware";
 import { authorize } from "@epehc/sharedutilities/middlewares/authorize";
 import express from "express";
-import { createPersonaContacto, deletePersonaContacto, getPersonasContactoByClienteId } from "../controllers/personaContactoController";
+import { createPersonaContacto, deletePersonaContacto, getPersonasContactoByClienteId, updatePersonaContacto } from "../controllers/personaContactoController";
 import { UserRole } from "@epehc/sharedutilities/enums/userRole";
 import { body, param } from "express-validator";
 
@@ -37,6 +37,18 @@ router.post('/',
         body('client_id').isString().withMessage('Invalid string')
     ],
     createPersonaContacto
+);
+
+router.put('/:persona_contacto_id',
+    authenticateJWT,
+    authorize([UserRole.Admin]),
+    [
+        body('client_id').isUUID().withMessage('Invalid UUID'),
+        body('nombre').isString().withMessage('Invalid string'),
+        body('telefono').isString().withMessage('Invalid string'),
+        body('correo').isEmail().withMessage('Invalid email'),
+    ],
+    updatePersonaContacto
 );
 
 router.delete('/:persona_contacto_id',
