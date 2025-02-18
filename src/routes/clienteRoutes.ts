@@ -90,12 +90,6 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Cliente'
  */
-
-router.get('/all',
-    authenticateJWT,
-    authorize([UserRole.Admin, UserRole.Reclutador]),
-    getAllClientes);
-
 router.get('/',
     authenticateJWT,
     authorize([UserRole.Admin, UserRole.Reclutador]),
@@ -131,37 +125,6 @@ router.get('/:client_id',
         param('client_id').isUUID().withMessage('Cliente ID es requerido')
     ],
     getClienteByClienteId);
-
-/**
- * @swagger
- * /clientes/nit/{nit}:
- *   get:
- *     summary: Get a cliente by NIT
- *     tags: [Clientes]
- *     parameters:
- *       - in: path
- *         name: nit
- *         schema:
- *           type: string
- *         required: true
- *         description: The cliente NIT
- *     responses:
- *       200:
- *         description: Cliente data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Cliente'
- *       404:
- *         description: Cliente not found
- */
-router.get('/nit/:nit',
-    authenticateJWT,
-    authorize([UserRole.Admin, UserRole.Reclutador]),
-    [
-        param('nit').isString().notEmpty().withMessage('NIT es requerido')
-    ],
-    getClienteByNit);
 
 /**
  * @swagger
