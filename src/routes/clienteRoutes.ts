@@ -95,6 +95,11 @@ router.get('/',
     authorize([UserRole.Admin, UserRole.Reclutador]),
     getClientes);
 
+router.get('/all',
+    authenticateJWT,
+    authorize([UserRole.Admin, UserRole.Reclutador]),
+    getAllClientes);
+
 /**
  * @swagger
  * /clientes/{cliente_id}:
