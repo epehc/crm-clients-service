@@ -74,10 +74,10 @@ To run the application using Docker:
 
 1. Build the Docker image:
    ```sh
-   docker build -t crm-candidates-service .
+   docker build -t crm-clients-service .
 2. Run the Docker container:
    ```sh
-   docker run -p 4000:4000 --env-file .env crm-candidates-service
+   docker run -p 4000:4000 --env-file .env crm-clients-service
    
 ## API Documentation
 
